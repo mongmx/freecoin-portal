@@ -179,7 +179,7 @@
 		var warning = "";
 	</script>
 	<script type="text/javascript">
-		window.addEventListener('load', function () {})
+		window.addEventListener('load', function () { })
 
 		function startApp() {
 			web3.eth.net.getId().then(netId => {
@@ -215,6 +215,7 @@
 					reloadInfo();
 					$('#connect_button').hide()
 					$('#disconnect_button').show()
+					$('#list_token').show()
 				})
 			})
 		}
@@ -300,6 +301,7 @@
 			userAccount = null;
 			$('#connect_button').show()
 			$('#disconnect_button').hide()
+			$('#list_token').hide()
 		}
 	</script>
 
@@ -394,6 +396,39 @@
 			</article>
 		</div>
 	</div>
+	<section style="text-align: center;">
+		<a id="list_token" class="button is-rounded modal-button" data-target="#modal"
+			style="display: none;">ต้องการแจกเหรียญ</a><br>
+		<div id="modal" class="modal">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Add new token</p>
+				</header>
+				<section class="modal-card-body">
+					<div class="field">
+						<label class="label">Token Address</label>
+						<div class="control">
+							<input class="input" type="text" placeholder="Address" name="addr">
+						</div>
+					</div>
+					<div class="field">
+						<div class="control">
+							<label class="checkbox">
+								<input type="checkbox">
+								I agree to the <a href="#">terms and conditions</a>
+							</label>
+						</div>
+					</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button">Add</button>
+					<button class="button modal-cancel">Cancel</button>
+				</footer>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+		</div>
+	</section>
 	<footer class="footer">
 		<div class="content has-text-centered">
 			<p>
@@ -401,6 +436,23 @@
 			</p>
 		</div>
 	</footer>
+	<script>
+		$(".modal-button").click(function () {
+			var target = $(this).data("target");
+			$("html").addClass("is-clipped");
+			$(target).addClass("is-active");
+		});
+
+		$(".modal-close").click(function () {
+			$("html").removeClass("is-clipped");
+			$(this).parent().removeClass("is-active");
+		});
+
+		$(".modal-cancel").click(function () {
+			$("html").removeClass("is-clipped");
+			$(".modal").removeClass("is-active");
+		});
+	</script>
 </body>
 
 </html>
