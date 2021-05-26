@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Free Coin Portal</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
@@ -8,181 +9,177 @@
 	<script src="web3.js"></script>
 	<script type="text/javascript">
 
-		var contractAddress = '0x05d0D3B87ae42B86ea3E1eA2f7DB9aE977a0e7c6';
+		var contractAddress = '0x04Ec9a3b2a38d8661046456F7361dB2a0a30a8cA';
 		var abi = [
-	{
-		"inputs": [
 			{
-				"internalType": "address",
-				"name": "addr",
-				"type": "address"
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "addTokenAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "addTokenAddress",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "addr",
-				"type": "address"
-			}
-		],
-		"name": "claim",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getAllTokens",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					}
+				],
+				"name": "claim",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
-				"internalType": "bytes32[]",
-				"name": "",
-				"type": "bytes32[]"
+				"inputs": [],
+				"name": "getAllTokens",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "bytes32[]",
+						"name": "",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "bytes32[]",
+						"name": "",
+						"type": "bytes32[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"internalType": "bytes32[]",
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "addr",
-				"type": "address"
-			}
-		],
-		"name": "getTokenInfo",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					}
+				],
+				"name": "getTokenInfo",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					}
+				],
+				"name": "getTokenOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					}
+				],
+				"name": "getTokenSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
 			{
-				"internalType": "address",
-				"name": "addr",
-				"type": "address"
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "source",
+						"type": "string"
+					}
+				],
+				"name": "stringToBytes32",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "result",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
 			}
-		],
-		"name": "getTokenOwner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "addr",
-				"type": "address"
-			}
-		],
-		"name": "getTokenSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "source",
-				"type": "string"
-			}
-		],
-		"name": "stringToBytes32",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "result",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	}
-]
+		]
 
 		var network = "";
 		var userAccount = '';
 		var warning = "";
 	</script>
 	<script type="text/javascript">
-		window.addEventListener('load', function () {
-			if (window.ethereum) {
-				web3 = new Web3(ethereum);
-				try {
-					ethereum.enable().then(result => {
-						startApp()
-					})
-				}
-				catch (err) {
-					console.log(err);
-				}
-			} else if (typeof web3 !== 'undefined') {
-				web3 = new Web3(web3.currentProvider);
-				startApp();
-			} else {
-				console.log('No web3? You should consider trying MetaMask!')
-				web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/aba3076e765948238fd7d8512e8e6852"));
-				startApp();
-			}
-		})
+		window.addEventListener('load', function () {})
 
 		function startApp() {
 			web3.eth.net.getId().then(netId => {
@@ -213,10 +210,11 @@
 				}
 
 				web3.eth.getAccounts().then(accounts => {
-					// userAccount = accounts[0];
-					// $("#eth_address").text(userAccount);
-					// $("#fromAddress").val(userAccount);
+					userAccount = accounts[0];
+					$("#user_address").text(userAccount);
 					reloadInfo();
+					$('#connect_button').hide()
+					$('#disconnect_button').show()
 				})
 			})
 		}
@@ -234,23 +232,74 @@
 		function getAllTokens() {
 			let contract = new web3.eth.Contract(abi, contractAddress);
 			contract.methods.getAllTokens().call().then(result => {
-				console.log("token name (bytes32): ", web3.utils.hexToAscii(result[1][0]))
-				$('#token_list_table').append('<tr><td class="table-label">'+
-					web3.utils.hexToAscii(result[2][0])+' ('+
-					web3.utils.hexToAscii(result[1][0])+') <a href="javascript:openContractOnEtherScan();" style="margin-left: 8px;">'+
-					'<i class="fas fa-lg fa-external-link-alt"></i></a></td><td class="table-value">'+
-					result[0][0]+'</td><td><a href="#">รับเหรียญ '+web3.utils.hexToAscii(result[2][0])+' </a></td></tr>');
+				$.each(result[0], function (i, v) {
+					$('#token_list_table').append('<tr><td class="table-label">' +
+						web3.utils.hexToAscii(result[3][i]) + ' (' +
+						web3.utils.hexToAscii(result[2][i]) + ') <a href="javascript:openContractOnEtherScan(\'' +
+						result[0][i] + '\');" style="margin-left: 8px;">' +
+						'<i class="fas fa-sm fa-external-link-alt"></i></a></td><td class="table-value">' +
+						result[1][i] + '</td><td><a class="button is-rounded is-small is-dark" href="javascript:claim(\'' +
+						result[0][i] + '\')">รับเหรียญ ' + web3.utils.hexToAscii(result[3][i]) + ' </a></td></tr>');
+				});
 			});
 		}
 
-		function openContractOnEtherScan() {
-			let url = 'https://' + network + '.etherscan.io/token/' + contractAddress
+		function claim(address) {
+			if (web3 !== null && userAccount !== null) {
+				console.log("claim for", address)
+				let option = { from: userAccount }
+				let contract = new web3.eth.Contract(abi, contractAddress)
+				contract.methods.claim(address).send(option)
+					.on('error', (error) => {
+						console.error(error)
+					})
+
+					// Transaction already saved to mempool
+					.on('transactionHash', (transactionHash) => {
+						console.log(transactionHash)
+					})
+
+					// Transaction got confirmed
+					.on('confirmation', (confirmationNumber, receipt) => {
+						console.log('confirmationNumber', confirmationNumber)
+						console.log(receipt);
+					})
+			}
+		}
+
+
+		function openContractOnEtherScan(address) {
+			let url = 'https://' + network + '.etherscan.io/token/' + address
 			window.open(url, '_blank');
 		}
 
-		function openAddressOnEtherScan() {
-			let url = 'https://' + network + '.etherscan.io/address/' + userAccount
+		function openAddressOnEtherScan(address) {
+			let url = 'https://' + network + '.etherscan.io/address/' + address
 			window.open(url, '_blank');
+		}
+
+		function connect(params) {
+			if (window.ethereum) {
+				web3 = new Web3(ethereum);
+				try {
+					ethereum.enable().then(result => {
+						startApp()
+					})
+				}
+				catch (err) {
+					console.log(err);
+				}
+			} else if (typeof web3 !== 'undefined') {
+				web3 = new Web3(web3.currentProvider);
+				startApp();
+			}
+		}
+
+		function disconnect(params) {
+			$('#token_list_table').empty()
+			userAccount = null;
+			$('#connect_button').show()
+			$('#disconnect_button').hide()
 		}
 	</script>
 
@@ -310,6 +359,7 @@
 		}
 	</style>
 </head>
+
 <body>
 	<section class="hero">
 		<div class="hero-body">
@@ -320,6 +370,13 @@
 			</div>
 		</div>
 	</section>
+	<section style="text-align: center;">
+		<a id="connect_button" class="button is-rounded is-dark" href="javascript:connect()">เชื่อมต่อกระเป๋า</a><br>
+		<div id="disconnect_button" style="display: none;">
+			<span id="user_address" class="button is-static"></span>&nbsp;
+			<a class="button is-rounded is-dark" href="javascript:disconnect()">หยุดเชื่อมต่อกระเป๋า</a>
+		</div>
+	</section>
 	<p>&nbsp;</p>
 	<div class="tile is-ancestor" style="max-width: 720px; margin-left: auto; margin-right: auto">
 		<div class="tile is-parent">
@@ -327,7 +384,7 @@
 				<table class="info">
 					<thead>
 						<tr>
-							<td>เหรียญ</td>
+							<td width="200">เหรียญ</td>
 							<td class="table-value">จำนวนเหรียญที่แจก</td>
 							<td></td>
 						</tr>
@@ -345,4 +402,5 @@
 		</div>
 	</footer>
 </body>
+
 </html>
