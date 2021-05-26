@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="web3.js"></script>
+	<script type="text/javascript">
+
+		var contractAddress = '0x05d0D3B87ae42B86ea3E1eA2f7DB9aE977a0e7c6';
+		var abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "addr",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "addTokenAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "addr",
+				"type": "address"
+			}
+		],
+		"name": "claim",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllTokens",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "bytes32[]",
+				"name": "",
+				"type": "bytes32[]"
+			},
+			{
+				"internalType": "bytes32[]",
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "addr",
+				"type": "address"
+			}
+		],
+		"name": "getTokenInfo",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "addr",
+				"type": "address"
+			}
+		],
+		"name": "getTokenOwner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "addr",
+				"type": "address"
+			}
+		],
+		"name": "getTokenSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "source",
+				"type": "string"
+			}
+		],
+		"name": "stringToBytes32",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "result",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	}
+]
+
+		var network = "";
+		var userAccount = '';
+		var warning = "";
+	</script>
+	<script type="text/javascript">
+		window.addEventListener('load', function () {
+			if (window.ethereum) {
+				web3 = new Web3(ethereum);
+				try {
+					ethereum.enable().then(result => {
+						startApp()
+					})
+				}
+				catch (err) {
+					console.log(err);
+				}
+			} else if (typeof web3 !== 'undefined') {
+				web3 = new Web3(web3.currentProvider);
+				startApp();
+			} else {
+				console.log('No web3? You should consider trying MetaMask!')
+				web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/aba3076e765948238fd7d8512e8e6852"));
+				startApp();
+			}
+		})
+
+		function startApp() {
+			web3.eth.net.getId().then(netId => {
+				console.log('netId: ' + netId)
+				switch (netId) {
+					case 1:
+						network = 'Mainnet';
+						warning = 'please switch your network to Rinkeby';
+						break
+					case 2:
+						network = 'Deprecated Morden';
+						warning = 'please switch your network to Rinkeby';
+						break
+					case 3:
+						network = 'Ropsten';
+						warning = 'please switch your network to Rinkeby';
+						break
+					case 4:
+						network = 'Rinkeby';
+						break
+					case 42:
+						network = 'Kovan';
+						warning = '';
+						break
+					default:
+						network = 'Unknown';
+						warning = 'please switch your network to Rinkeby';
+				}
+
+				web3.eth.getAccounts().then(accounts => {
+					// userAccount = accounts[0];
+					// $("#eth_address").text(userAccount);
+					// $("#fromAddress").val(userAccount);
+					reloadInfo();
+				})
+			})
+		}
+
+		function reloadInfo() {
+			try {
+				let contract = new web3.eth.Contract(abi, contractAddress)
+				getAllTokens()
+			}
+			catch (err) {
+				console.log(err);
+			}
+		}
+
+		function getAllTokens() {
+			let contract = new web3.eth.Contract(abi, contractAddress);
+			contract.methods.getAllTokens().call().then(result => {
+				console.log("token name (bytes32): ", web3.utils.hexToAscii(result[1][0]))
+				$('#token_list_table').append('<tr><td class="table-label">'+
+					web3.utils.hexToAscii(result[2][0])+' ('+
+					web3.utils.hexToAscii(result[1][0])+') <a href="javascript:openContractOnEtherScan();" style="margin-left: 8px;">'+
+					'<i class="fas fa-lg fa-external-link-alt"></i></a></td><td class="table-value">'+
+					result[0][0]+'</td><td><a href="#">รับเหรียญ '+web3.utils.hexToAscii(result[2][0])+' </a></td></tr>');
+			});
+		}
+
+		function openContractOnEtherScan() {
+			let url = 'https://' + network + '.etherscan.io/token/' + contractAddress
+			window.open(url, '_blank');
+		}
+
+		function openAddressOnEtherScan() {
+			let url = 'https://' + network + '.etherscan.io/address/' + userAccount
+			window.open(url, '_blank');
+		}
+	</script>
+
+	<style type="text/css">
+		.p_network {
+			border: 4px solid;
+			border-radius: 10px;
+			padding: 10px;
+			border-color: #2196F3;
+			text-align: center;
+			width: 11em;
+			margin: auto;
+			margin-top: 20px;
+		}
+
+		.p_warning {
+			padding: 10px;
+			text-align: center;
+			margin: auto;
+			color: red;
+		}
+
+		.title {
+			text-align: center;
+			margin: auto;
+			margin-top: 9px;
+			margin-bottom: 20px;
+		}
+
+		table.info tr {
+			line-height: 2em;
+		}
+
+		table.info .table-label {
+			width: 10em;
+			margin-right: 20px;
+			font-weight: bold;
+		}
+
+		table.info .table-value {
+			word-break: break-all;
+			text-align: center;
+		}
+
+		table.info {
+			width: 100%;
+		}
+
+		.table-title {
+			font-size: 1.5rem;
+		}
+
+		.footer {
+			bottom: 0;
+			position: fixed;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<section class="hero">
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title">
+					แจกเหรียญฟรี!
+				</h1>
+			</div>
+		</div>
+	</section>
+	<p>&nbsp;</p>
+	<div class="tile is-ancestor" style="max-width: 720px; margin-left: auto; margin-right: auto">
+		<div class="tile is-parent">
+			<article class="tile is-child box notification">
+				<table class="info">
+					<thead>
+						<tr>
+							<td>เหรียญ</td>
+							<td class="table-value">จำนวนเหรียญที่แจก</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody id="token_list_table"></tbody>
+				</table>
+			</article>
+		</div>
+	</div>
+	<footer class="footer">
+		<div class="content has-text-centered">
+			<p>
+				developed by Crypto9
+			</p>
+		</div>
+	</footer>
+</body>
+</html>
