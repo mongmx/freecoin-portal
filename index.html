@@ -9,7 +9,7 @@
 	<script src="web3.js"></script>
 	<script type="text/javascript">
 
-		var contractAddress = '0x04Ec9a3b2a38d8661046456F7361dB2a0a30a8cA';
+		var contractAddress = '0xe5f89c5b3C06f20480b60e63bE26F96c59ed917f';
 		var abi = [
 			{
 				"inputs": [
@@ -25,6 +25,30 @@
 					}
 				],
 				"name": "addTokenAddress",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "approveToken",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -35,6 +59,11 @@
 						"internalType": "address",
 						"name": "addr",
 						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
 					}
 				],
 				"name": "claim",
@@ -71,6 +100,25 @@
 						"internalType": "bytes32[]",
 						"name": "",
 						"type": "bytes32[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					}
+				],
+				"name": "getTokenAllowance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -174,12 +222,285 @@
 			}
 		]
 
+		var abiErc20 = [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "Approval",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "Transfer",
+				"type": "event"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					}
+				],
+				"name": "allowance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "approve",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "balanceOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "decimals",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "getOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "name",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "symbol",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "totalSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "transfer",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "transferFrom",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		]
+
 		var network = "";
 		var userAccount = '';
 		var warning = "";
 	</script>
 	<script type="text/javascript">
-		window.addEventListener('load', function () { })
+		window.addEventListener('load', function () {
+			let pendingTokenJson = localStorage.getItem("pending_token");
+			if (pendingTokenJson !== null) {
+				let pendingToken = JSON.parse(pendingTokenJson)
+				$('#addr').val(pendingToken.address);
+				$('#amount').val(pendingToken.amount);
+				if (pendingToken.status == "ready") {
+					$('#add_token_btn').removeClass('is-static');
+					$('#add_token_btn').addClass('is-dark');
+					$('#deposit_btn').removeClass('is-dark');
+					$('#deposit_btn').addClass('is-static');
+					$('#addr').prop('disabled', true);
+					$('#amount').prop('disabled', true);
+				}
+			}
+		})
 
 		function startApp() {
 			web3.eth.net.getId().then(netId => {
@@ -216,11 +537,13 @@
 					$('#connect_button').hide()
 					$('#disconnect_button').show()
 					$('#list_token').show()
+					$('#provide_token').show()
 				})
 			})
 		}
 
 		function reloadInfo() {
+			$('#token_list_table').empty()
 			try {
 				let contract = new web3.eth.Contract(abi, contractAddress)
 				getAllTokens()
@@ -239,35 +562,96 @@
 						web3.utils.hexToAscii(result[2][i]) + ') <a href="javascript:openContractOnEtherScan(\'' +
 						result[0][i] + '\');" style="margin-left: 8px;">' +
 						'<i class="fas fa-sm fa-external-link-alt"></i></a></td><td class="table-value">' +
-						result[1][i] + '</td><td><a class="button is-rounded is-small is-dark" href="javascript:claim(\'' +
+						(result[1][i]/1e18) + '</td><td><a class="button is-rounded is-small is-dark" href="javascript:receive(\'' +
 						result[0][i] + '\')">รับเหรียญ ' + web3.utils.hexToAscii(result[3][i]) + ' </a></td></tr>');
 				});
 			});
 		}
 
-		function claim(address) {
+		function receive(addr) {
 			if (web3 !== null && userAccount !== null) {
-				console.log("claim for", address)
-				let option = { from: userAccount }
-				let contract = new web3.eth.Contract(abi, contractAddress)
-				contract.methods.claim(address).send(option)
+				let option = { from: userAccount };
+				let contract = new web3.eth.Contract(abi, contractAddress);
+				contract.methods.claim(addr, 1e18).send(option)
 					.on('error', (error) => {
-						console.error(error)
+						console.error(error);
 					})
-
 					// Transaction already saved to mempool
 					.on('transactionHash', (transactionHash) => {
-						console.log(transactionHash)
+						console.log(transactionHash);
 					})
-
 					// Transaction got confirmed
 					.on('confirmation', (confirmationNumber, receipt) => {
-						console.log('confirmationNumber', confirmationNumber)
+						console.log('confirmationNumber', confirmationNumber);
 						console.log(receipt);
-					})
+						reloadInfo();
+					});
 			}
 		}
 
+		function addNewToken() {
+			let addr = $('#addr').val();
+			let amount = $('#amount').val();
+			if (addr !== "" && !isNaN(parseInt(amount))) {
+				localStorage.setItem("pending_token", JSON.stringify({ "address": addr, "amount": amount, "status": "deposit" }));
+				if (web3 !== null && userAccount !== null) {
+					let option = { from: userAccount };
+					let contract = new web3.eth.Contract(abiErc20, addr);
+					contract.methods.transfer(contractAddress, parseInt(amount) * 1e18).send(option)
+						.on('error', (error) => {
+							console.error(error);
+						})
+						// Transaction already saved to mempool
+						.on('transactionHash', (transactionHash) => {
+							console.log(transactionHash);
+						})
+						// Transaction got confirmed
+						.on('confirmation', (confirmationNumber, receipt) => {
+							console.log('confirmationNumber', confirmationNumber);
+							console.log(receipt);
+							$('#add_token_btn').removeClass('is-static');
+							$('#add_token_btn').addClass('is-dark');
+							$('#deposit_btn').removeClass('is-dark');
+							$('#deposit_btn').addClass('is-static');
+							$('#addr').prop('disabled', true);
+							$('#amount').prop('disabled', true);
+							localStorage.setItem("pending_token", JSON.stringify({ "address": addr, "amount": amount, "status": "ready" }));
+						});
+				}
+			}
+		}
+
+		function startFreeToken() {
+			let addr = $('#addr').val();
+			let amount = $('#amount').val();
+			if (addr !== "" && !isNaN(parseInt(amount))) {
+				if (web3 !== null && userAccount !== null) {
+					let option = { from: userAccount };
+					let contract = new web3.eth.Contract(abi, contractAddress);
+					contract.methods.addTokenAddress(addr, parseInt(amount) * 1e18).send(option)
+						.on('error', (error) => {
+							console.error(error);
+						})
+						// Transaction already saved to mempool
+						.on('transactionHash', (transactionHash) => {
+							console.log(transactionHash);
+						})
+						// Transaction got confirmed
+						.on('confirmation', (confirmationNumber, receipt) => {
+							console.log('confirmationNumber', confirmationNumber);
+							console.log(receipt);
+							$('#add_token_btn').removeClass('is-static');
+							$('#add_token_btn').addClass('is-dark');
+							$('#deposit_btn').removeClass('is-dark');
+							$('#deposit_btn').addClass('is-static');
+							$('#addr').prop('disabled', true);
+							$('#amount').prop('disabled', true);
+							localStorage.setItem("pending_token", null);
+							reloadInfo();
+						});
+				}
+			}
+		}
 
 		function openContractOnEtherScan(address) {
 			let url = 'https://' + network + '.etherscan.io/token/' + address
@@ -302,10 +686,15 @@
 			$('#connect_button').show()
 			$('#disconnect_button').hide()
 			$('#list_token').hide()
+			$('#provide_token').hide()
 		}
 	</script>
 
 	<style type="text/css">
+		body {
+			padding-bottom: 4rem;
+		}
+
 		.p_network {
 			border: 4px solid;
 			border-radius: 10px;
@@ -358,6 +747,8 @@
 			bottom: 0;
 			position: fixed;
 			width: 100%;
+			padding-top: 1rem;
+			padding-bottom: 1rem;
 		}
 	</style>
 </head>
@@ -370,6 +761,9 @@
 					แจกเหรียญฟรี!
 				</h1>
 			</div>
+			<div style="text-align: center;">
+				<a href="#receive_token">รับเหรียญ</a> | <a href="#provide_token">แจกเหรียญ</a>
+			</div>
 		</div>
 	</section>
 	<section style="text-align: center;">
@@ -380,7 +774,9 @@
 		</div>
 	</section>
 	<p>&nbsp;</p>
-	<div class="tile is-ancestor" style="max-width: 720px; margin-left: auto; margin-right: auto">
+
+	<p>&nbsp;</p>
+	<div class="tile is-ancestor" style="max-width: 720px; margin-left: auto; margin-right: auto" id="receive_token">
 		<div class="tile is-parent">
 			<article class="tile is-child box notification">
 				<table class="info">
@@ -396,39 +792,49 @@
 			</article>
 		</div>
 	</div>
-	<section style="text-align: center;">
-		<a id="list_token" class="button is-rounded modal-button" data-target="#modal"
-			style="display: none;">ต้องการแจกเหรียญ</a><br>
-		<div id="modal" class="modal">
-			<div class="modal-background"></div>
-			<div class="modal-card">
-				<header class="modal-card-head">
-					<p class="modal-card-title">Add new token</p>
-				</header>
-				<section class="modal-card-body">
-					<div class="field">
-						<label class="label">Token Address</label>
-						<div class="control">
-							<input class="input" type="text" placeholder="Address" name="addr">
+	<hr>
+	<div class="tile is-ancestor" style="max-width: 720px; margin-left: auto; margin-right: auto; display: none;"
+		id="provide_token">
+		<div class="tile is-parent">
+			<article class="tile is-child box notification">
+				<h4 class="title is-4">ต้องการแจกเหรียญ</h4>
+				<div class="columns">
+					<div class="column is-two-thirds">
+						<div class="field">
+							<label class="label">Address</label>
+							<div class="control">
+								<input class="input" type="text" placeholder="0x0000....0000" id="addr">
+							</div>
 						</div>
 					</div>
-					<div class="field">
-						<div class="control">
-							<label class="checkbox">
-								<input type="checkbox">
-								I agree to the <a href="#">terms and conditions</a>
-							</label>
+					<div class="column">
+						<div class="field">
+							<label class="label">จำนวนที่แจก</label>
+							<div class="control">
+								<input class="input" type="text" placeholder="1" id="amount">
+							</div>
 						</div>
 					</div>
-				</section>
-				<footer class="modal-card-foot">
-					<button class="button">Add</button>
-					<button class="button modal-cancel">Cancel</button>
-				</footer>
-			</div>
-			<button class="modal-close is-large" aria-label="close"></button>
+				</div>
+				<div class="columns">
+					<div class="column">
+						<div id="pending_token_info" style="display: none;">
+							ชื่อเหรียญ : <span id="pending_token_name">C9T</span> (<span
+								id="pending_token_symbol">Crypto9Token</span>)
+						</div>
+					</div>
+					<div class="column">
+						<div class="has-text-right">
+							<button id="deposit_btn" class="button is-rounded is-dark"
+								onclick="addNewToken()">ฝากเหรียญ</button>
+							<button id="add_token_btn" class="button is-rounded is-static"
+								onclick="startFreeToken()">เริ่มแจกเหรียญ</button>
+						</div>
+					</div>
+				</div>
+			</article>
 		</div>
-	</section>
+	</div>
 	<footer class="footer">
 		<div class="content has-text-centered">
 			<p>
@@ -436,23 +842,6 @@
 			</p>
 		</div>
 	</footer>
-	<script>
-		$(".modal-button").click(function () {
-			var target = $(this).data("target");
-			$("html").addClass("is-clipped");
-			$(target).addClass("is-active");
-		});
-
-		$(".modal-close").click(function () {
-			$("html").removeClass("is-clipped");
-			$(this).parent().removeClass("is-active");
-		});
-
-		$(".modal-cancel").click(function () {
-			$("html").removeClass("is-clipped");
-			$(".modal").removeClass("is-active");
-		});
-	</script>
 </body>
 
 </html>
