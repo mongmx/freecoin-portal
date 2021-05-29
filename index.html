@@ -9,7 +9,7 @@
 	<script src="web3.js"></script>
 	<script type="text/javascript">
 
-		var contractAddress = '0xe5f89c5b3C06f20480b60e63bE26F96c59ed917f';
+		var contractAddress = '0x2B1BA5c5AfcF569FF1eD2A6feC946e5Ced2b9523';
 		var abi = [
 			{
 				"inputs": [
@@ -488,7 +488,7 @@
 		window.addEventListener('load', function () {
 			let pendingTokenJson = localStorage.getItem("pending_token");
 			if (pendingTokenJson !== null) {
-				let pendingToken = JSON.parse(pendingTokenJson)
+				let pendingToken = JSON.parse(pendingTokenJson);
 				$('#addr').val(pendingToken.address);
 				$('#amount').val(pendingToken.amount);
 				if (pendingToken.status == "ready") {
@@ -504,49 +504,34 @@
 
 		function startApp() {
 			web3.eth.net.getId().then(netId => {
-				console.log('netId: ' + netId)
+				console.log('netId: ' + netId);
 				switch (netId) {
-					case 1:
-						network = 'Mainnet';
-						warning = 'please switch your network to Rinkeby';
-						break
-					case 2:
-						network = 'Deprecated Morden';
-						warning = 'please switch your network to Rinkeby';
-						break
-					case 3:
-						network = 'Ropsten';
-						warning = 'please switch your network to Rinkeby';
-						break
-					case 4:
-						network = 'Rinkeby';
-						break
-					case 42:
-						network = 'Kovan';
-						warning = '';
-						break
+					case 25925:
+						network = 'Bitkub Testnet';
+						break;
 					default:
 						network = 'Unknown';
-						warning = 'please switch your network to Rinkeby';
+						warning = 'please switch your network to Bitkub Testnet';
+						return;
 				}
 
 				web3.eth.getAccounts().then(accounts => {
 					userAccount = accounts[0];
 					$("#user_address").text(userAccount);
 					reloadInfo();
-					$('#connect_button').hide()
-					$('#disconnect_button').show()
-					$('#list_token').show()
-					$('#provide_token').show()
+					$('#connect_button').hide();
+					$('#disconnect_button').show();
+					$('#list_token').show();
+					$('#provide_token').show();
 				})
 			})
 		}
 
 		function reloadInfo() {
-			$('#token_list_table').empty()
+			$('#token_list_table').empty();
 			try {
-				let contract = new web3.eth.Contract(abi, contractAddress)
-				getAllTokens()
+				let contract = new web3.eth.Contract(abi, contractAddress);
+				getAllTokens();
 			}
 			catch (err) {
 				console.log(err);
@@ -562,7 +547,7 @@
 						web3.utils.hexToAscii(result[2][i]) + ') <a href="javascript:openContractOnEtherScan(\'' +
 						result[0][i] + '\');" style="margin-left: 8px;">' +
 						'<i class="fas fa-sm fa-external-link-alt"></i></a></td><td class="table-value">' +
-						(result[1][i]/1e18) + '</td><td><a class="button is-rounded is-small is-dark" href="javascript:receive(\'' +
+						(result[1][i] / 1e18) + '</td><td><a class="button is-rounded is-small is-dark" href="javascript:receive(\'' +
 						result[0][i] + '\')">รับเหรียญ ' + web3.utils.hexToAscii(result[3][i]) + ' </a></td></tr>');
 				});
 			});
@@ -654,12 +639,12 @@
 		}
 
 		function openContractOnEtherScan(address) {
-			let url = 'https://' + network + '.etherscan.io/token/' + address
+			let url = 'https://testnet.bkcscan.com/token/' + address;
 			window.open(url, '_blank');
 		}
 
 		function openAddressOnEtherScan(address) {
-			let url = 'https://' + network + '.etherscan.io/address/' + address
+			let url = 'https://testnet.bkcscan.com/address/' + address;
 			window.open(url, '_blank');
 		}
 
@@ -668,7 +653,7 @@
 				web3 = new Web3(ethereum);
 				try {
 					ethereum.enable().then(result => {
-						startApp()
+						startApp();
 					})
 				}
 				catch (err) {
@@ -681,12 +666,12 @@
 		}
 
 		function disconnect(params) {
-			$('#token_list_table').empty()
+			$('#token_list_table').empty();
 			userAccount = null;
-			$('#connect_button').show()
-			$('#disconnect_button').hide()
-			$('#list_token').hide()
-			$('#provide_token').hide()
+			$('#connect_button').show();
+			$('#disconnect_button').hide();
+			$('#list_token').hide();
+			$('#provide_token').hide();
 		}
 	</script>
 
